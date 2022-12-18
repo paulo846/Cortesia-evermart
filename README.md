@@ -1,9 +1,5 @@
-# Adicionar na cortesia da evermart
+# Adicionar usuário na cortesia da evermart
+Projeto para adicionar clientes diretamente na cortesia dos produtos da evermart
 
-Adicione seus clientes diretamente na cortesia da evermart.
-
-É necessário ter o ID do produto.
-
-# Atualização
-
+## Atualização
 Para envio em massa é necessário um servidor PHP.
