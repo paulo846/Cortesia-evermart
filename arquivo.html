@@ -31,30 +31,32 @@
                         <div class="spinner-border" role="status" style="display: none;" id="carregando">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="sucesso" style="display: none;">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="sucesso"
+                            style="display: none;">
                             Cadastrado com sucesso!
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="erro" style="display: none;">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="erro"
+                            style="display: none;">
                             Erro ao realizar o cadastro! <br>
                             <b>
                                 <span id="resp"></span>
                             </b>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                    <form action="functions/envia.php" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="">ID Produto</label>
-                            <input type="text" class="form-control" name="id" id="idProduto" required
-                                placeholder="2516519815189491621">
-                        </div>
-                        <div class="mb-3">
-                            <label for="">Arquivo</label>
-                            <input type="file" class="form-control" name="arquivo" id="arquivo" required placeholder="Nome do cliente">
-                        </div>
-            
-                        <button class="btn btn-primary" id="btn" type="submit">Cadastrar</button>
-                    </form>
+                        <form action="functions/envia.php" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="">ID Produto</label>
+                                <input type="text" class="form-control" name="id" id="idProduto" required
+                                    placeholder="2516519815189491621">
+                            </div>
+                            <div class="mb-3">
+                                <label for="">Arquivo</label>
+                                <input type="file" class="form-control" name="arquivo" id="arquivo" required
+                                    placeholder="Nome do cliente">
+                            </div>
+                            <button class="btn btn-primary" id="btn" type="submit">Cadastrar</button>
+                        </form>
                     </div>
                 </div>
             </div>
