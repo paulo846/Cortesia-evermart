@@ -1,15 +1,5 @@
 <?php
 
-/**
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 //Verifica se o arquivo foi enviado
 if (isset($_FILES['arquivo'])) {
 
@@ -25,23 +15,16 @@ if (isset($_FILES['arquivo'])) {
     //Numero de colunas
     $numberOfFields = 2;
 
-    //array para salvar as linhas extraídas
-    $csvArr = [];
-
     echo "<pre>";
 
-    //Extrai linha por linha até mil
-    while (($filedata = fgetcsv($list, 150, ",")) !== FALSE) {
+    //Extrai linha por linha até 500
+    while (($filedata = fgetcsv($list, 500, ",")) !== FALSE) {
 
         //numero de linhas
         $num = count($filedata);
 
-        //remove pelo menos a primeira linha que o titulo
+        //remove pelo menos a primeira linha que é o titulo
         if ($i > 0 && $num == $numberOfFields) {
-            
-            //salva os dados extraídos em um array
-            $csvArr[$i]['nome']  = $filedata[0];
-            $csvArr[$i]['email'] = $filedata[1];
 
             //array para post
             $post = [
