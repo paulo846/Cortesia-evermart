@@ -14,7 +14,7 @@ if ($_POST) :
         /**REGISTRA TENTATIVA DE ACESSO NÃO AUTORIZADO */
         $file = "assets/txt/POSTS-" . date('Y-m-d') . '-' . time() . ".txt";
         $ip = $_SERVER['REMOTE_ADDR'];
-        $content = $_POST;
+        $content = json_encode($_POST);
         file_put_contents($file, $content);
 
 
@@ -29,29 +29,26 @@ if ($_POST) :
             'time' => "indeterminate"
         ];
 
-        print_r($post);
+        //print_r($post);
 
         //inicio da solicitação curl
-        //$ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
-        //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
         // execute!
-        //$response = curl_exec($ch);
+        $response = curl_exec($ch);
 
         // fecha a conexão, libera os recursos usados
-        //curl_close($ch);
+        curl_close($ch);
 
         // faça o que quiser com sua resposta
-        //var_dump($response);
-
-
-
+        echo json_encode($_POST);
 
     endif;
 else :
 
-    $file = "assets/text/tentativa-de-acessos-" . date('Y-m-d') . ".txt";
+    $file = "assets/txt/tentativa-de-acessos-" . date('Y-m-d') . ".txt";
     /**REGISTRA TENTATIVA DE ACESSO NÃO AUTORIAZADO */
     $ip = $_SERVER['REMOTE_ADDR'];
     $content = date('H:i:s') . " - IP:" . $ip . "\n";
@@ -64,45 +61,3 @@ else :
 
 
 endif;
-
-
-
-function liberaAcesso($status)
-{
-}
-
-
-foreach ($_POST as $key => $value)
-    $$key = $value;
-
-
-if ($api_key == 'SUACHAVEDEAPI') {
-
-    switch ($trans_status) {
-        case '3':
-            #Pagou
-            libera_acesso();
-            break;
-        case '6':   #Aguardando reembolso
-        case '7':   #Reembolsado
-            remove_acesso();
-            break;
-            #...
-            #...
-            #...
-        default:
-            echo "STATUS DESCONHECIDO";
-            break;
-    }
-} else
-    echo "ACESSO INVALIDO";
-
-function libera_acesso()
-{
-    echo "ACESSO LIBERADO";
-}
-
-function remove_acesso()
-{
-    echo "ACESSO REMOVIDO";
-}
