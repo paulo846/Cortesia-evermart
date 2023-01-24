@@ -32,18 +32,18 @@ if ($_POST) :
         print_r($post);
 
         //inicio da solicitação curl
-        $ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        //$ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
+        //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
         // execute!
-        $response = curl_exec($ch);
+        //$response = curl_exec($ch);
 
         // fecha a conexão, libera os recursos usados
-        curl_close($ch);
+        //curl_close($ch);
 
         // faça o que quiser com sua resposta
-        var_dump($response);
+        //var_dump($response);
 
 
 
