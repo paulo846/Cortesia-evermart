@@ -3,6 +3,7 @@
 //WEBHOOK EDUZZ
 
 // Define o tipo de conteúdo da resposta como JSON
+http_response_code(200);
 header('Content-Type: application/json');
 define('BASE_URL', 'https://evermart.dinamusdigital.com');
 
@@ -40,7 +41,11 @@ if ($_POST) :
         curl_close($ch);
 
         // faça o que quiser com sua resposta
-        echo json_encode($_POST);
+        echo json_encode([
+            "success" => true,
+            "code"    => 200,
+            "data"    => $_POST
+        ]);
     else :
         /** CRIA ARQUIVO SE UM OUTRO STATUS DIFERENTE DE APROVADO SEJA ENVIADO */
         $file = "assets/txt/OUTROS-STATUS-" . date('Y-m-d') . '-' . time() . ".json";
