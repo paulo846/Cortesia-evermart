@@ -12,7 +12,7 @@ if ($_POST) :
 
         /** REGISTRA OS DADOS RECEBIDOS EM UM ARQUIVO TXT */
         /**REGISTRA TENTATIVA DE ACESSO NÃO AUTORIZADO */
-        $file = "assets/txt/POSTS-" . date('Y-m-d') . '-' . time() . ".txt";
+        $file = "assets/txt/POSTS-" . date('Y-m-d') . '-' . time() . ".json";
         $ip = $_SERVER['REMOTE_ADDR'];
         $content = json_encode($_POST);
         file_put_contents($file, $content);
@@ -43,13 +43,13 @@ if ($_POST) :
         echo json_encode($_POST);
     else :
         /** CRIA ARQUIVO SE UM OUTRO STATUS DIFERENTE DE APROVADO SEJA ENVIADO */
-        $file = "assets/txt/OUTROS-STATUS-" . date('Y-m-d') . '-' . time() . ".txt";
+        $file = "assets/txt/OUTROS-STATUS-" . date('Y-m-d') . '-' . time() . ".json";
         $ip = $_SERVER['REMOTE_ADDR'];
         $content = json_encode($_POST);
         file_put_contents($file, $content);
     endif;
 else :
-    
+
     $file = "assets/txt/ACESSO-NAO-AUTORIZADO-" . date('Y-m-d') . "-" . uniqid() . ".txt";
     /**REGISTRA TENTATIVA DE ACESSO NÃO AUTORIAZADO */
     $ip = $_SERVER['REMOTE_ADDR'];
