@@ -12,7 +12,7 @@ if ($_POST) :
 
         /** REGISTRA OS DADOS RECEBIDOS EM UM ARQUIVO TXT */
         /**REGISTRA TENTATIVA DE ACESSO NÃO AUTORIZADO */
-        $file = "assets/text/POSTS-" . date('Y-m-d') . '-' . time() . ".txt";
+        $file = "assets/txt/POSTS-" . date('Y-m-d') . '-' . time() . ".txt";
         $ip = $_SERVER['REMOTE_ADDR'];
         $content = $_POST;
         file_put_contents($file, $content);
