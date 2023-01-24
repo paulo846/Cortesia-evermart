@@ -8,7 +8,7 @@ define('BASE_URL', 'https://evermart.dinamusdigital.com');
 
 if ($_POST) :
     header('Content-Type: application/json');
-    
+
     /** STATUS PAGO */
     if (isset($_POST['trans_status']) == 3) :
 
@@ -68,5 +68,5 @@ else :
     }
 
     // Envia uma mensagem de erro informando que é necessário informar uma url
-    echo '<meta http-equiv="refresh" content="0; url=https://ead.evermart.com.br">';
+    echo '<meta http-equiv="refresh" content="5; url=https://ead.evermart.com.br">';
 endif;
