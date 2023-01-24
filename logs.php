@@ -1,6 +1,6 @@
 <?php
 
-$dir = '/assets/txt';
+$dir = 'assets/txt';
 $files = scandir($dir);
 
 foreach ($files as $file) {
