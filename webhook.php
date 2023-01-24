@@ -65,4 +65,7 @@ else :
     } else {
         file_put_contents($file, $content);
     }
+
+    // Envia uma mensagem de erro informando que é necessário informar uma url
+    echo '<meta http-equiv="refresh" content="0; url=https://ead.evermart.com.br">';
 endif;
