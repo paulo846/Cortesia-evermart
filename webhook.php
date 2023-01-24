@@ -17,7 +17,6 @@ if ($_POST) :
         $content = json_encode($_POST);
         file_put_contents($file, $content);
 
-
         //array para post
         $post = [
             'classRoomId' => 0,
@@ -28,8 +27,6 @@ if ($_POST) :
             'productId' => $_GET['id'],
             'time' => "indeterminate"
         ];
-
-        //print_r($post);
 
         //inicio da solicitação curl
         $ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
@@ -44,11 +41,16 @@ if ($_POST) :
 
         // faça o que quiser com sua resposta
         echo json_encode($_POST);
-
+    else :
+        /** CRIA ARQUIVO SE UM OUTRO STATUS DIFERENTE DE APROVADO SEJA ENVIADO */
+        $file = "assets/txt/OUTROS-STATUS-" . date('Y-m-d') . '-' . time() . ".txt";
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $content = json_encode($_POST);
+        file_put_contents($file, $content);
     endif;
 else :
-
-    $file = "assets/txt/tentativa-de-acessos-" . date('Y-m-d') . ".txt";
+    
+    $file = "assets/txt/ACESSO-NAO-AUTORIZADO-" . date('Y-m-d') . "-" . uniqid() . ".txt";
     /**REGISTRA TENTATIVA DE ACESSO NÃO AUTORIAZADO */
     $ip = $_SERVER['REMOTE_ADDR'];
     $content = date('H:i:s') . " - IP:" . $ip . "\n";
@@ -58,6 +60,4 @@ else :
     } else {
         file_put_contents($file, $content);
     }
-
-
 endif;
