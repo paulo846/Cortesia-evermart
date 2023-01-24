@@ -4,10 +4,11 @@
 
 // Define o tipo de conteúdo da resposta como JSON
 http_response_code(200);
-header('Content-Type: application/json');
 define('BASE_URL', 'https://evermart.dinamusdigital.com');
 
 if ($_POST) :
+    header('Content-Type: application/json');
+    
     /** STATUS PAGO */
     if (isset($_POST['trans_status']) == 3) :
 
