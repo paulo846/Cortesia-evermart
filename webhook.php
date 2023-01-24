@@ -21,10 +21,10 @@ if ($_POST) :
         //array para post
         $post = [
             'classRoomId' => 0,
-            'email' => $_POST['cus_email'],
+            'email' => $_POST['student_email'],
             'isActive' => true,
             'months' => 12,
-            'name' => $_POST['cus_name'],
+            'name' => $_POST['student_name'],
             'productId' => $_GET['id'],
             'time' => "indeterminate"
         ];
