@@ -1,63 +1,71 @@
 <?php
 
-//Verifica se o arquivo foi enviado
+// Verifica se o arquivo foi enviado
 if (isset($_FILES['arquivo'])) {
 
-    //Trasfere dados do arquivo para a variavel file
+    // Trasfere dados do arquivo para a variável file
     $file = $_FILES['arquivo'];
 
-    //Abre arquivo
-    $list = fopen($file['tmp_name'], "r");
+    // Verifica a extensão do arquivo
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-    //Linhas
-    $i = 0;
+    // Verifica se a extensão é .csv
+    if ($extension == 'csv') {
+        // Abre arquivo
+        $list = fopen($file['tmp_name'], "r");
 
-    //Numero de colunas
-    $numberOfFields = 2;
+        // Variável de controle de linhas
+        $i = 0;
 
-    echo "<pre>";
+        // Número de colunas esperadas
+        $numberOfFields = 2;
 
-    //Extrai linha por linha até 500
-    while (($filedata = fgetcsv($list, 500, ",")) !== FALSE) {
+        echo "<pre>";
 
-        //numero de linhas
-        $num = count($filedata);
+        // Extrai linha por linha até 500 caracteres
+        while (($filedata = fgetcsv($list, 500, ",")) !== FALSE) {
 
-        //remove pelo menos a primeira linha que é o titulo
-        if ($i > 0 && $num == $numberOfFields) {
+            // Número de colunas na linha atual
+            $num = count($filedata);
 
-            //array para post
-            $post = [
-                'classRoomId' => 0,
-                'email' => $filedata[1],
-                'isActive' => true,
-                'months' => 12,
-                'name' => $filedata[0],
-                'productId' => $_POST['id'],
-                'time' => "indeterminate"
-            ];
+            // Remove pelo menos a primeira linha que é o título e verifica se o número de colunas é o esperado
+            if ($i > 0 && $num == $numberOfFields) {
 
-            print_r($post);
+                // Array para post
+                $post = [
+                    'classRoomId' => 0,
+                    'email' => $filedata[1],
+                    'isActive' => true,
+                    'months' => 12,
+                    'name' => $filedata[0],
+                    'productId' => $_POST['id'],
+                    'time' => "indeterminate"
+                ];
 
-            //inicio da solicitação curl
-            $ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                print_r($post);
 
-            // execute!
-            $response = curl_exec($ch);
+                // Início da solicitação curl
+                $ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
-            // fecha a conexão, libera os recursos usados
-            curl_close($ch);
+                // Execute a solicitação
+                $response = curl_exec($ch);
 
-            // faça o que quiser com sua resposta
-            var_dump($response);
+                // Fecha a conexão, libera os recursos usados
+                curl_close($ch);
+
+                // Exibe a resposta
+                var_dump($response);
+            }
+            $i++;
         }
-        $i++;
+
+        echo "</pre>";
+
+        // Fecha arquivo
+        fclose($list);
+    } else {
+        echo "Por favor, envie um arquivo .csv.";
     }
-
-    echo "</pre>";
-
-    //fecha arquivo
-    fclose($list);
 }
