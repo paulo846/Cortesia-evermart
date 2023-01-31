@@ -58,7 +58,7 @@ if (isset($_FILES['arquivo'])) {
                     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                     if ($statusCode == 400) {
                         echo '<p class="alert alert-danger p-1 m-1">';
-                        echo 'Linha: '. $i ;
+                        echo 'Linha: '. $i. '<br>';
                         echo "Nome: " . $post['name'] . '<br>';
                         echo "Email: " . $post['email'] . '<br>';
                         echo "Response: " . json_decode($response)->message . "<br>";
@@ -66,7 +66,7 @@ if (isset($_FILES['arquivo'])) {
                         echo "</p>";
                     } else {
                         echo '<p class="alert alert-success p-1 m-1">';
-                        echo 'Linha: '. $i ;
+                        echo 'Linha: '. $i. '<br>';
                         echo "Nome: " . $post['name'] . '<br>';
                         echo "Email: " . $post['email'] . '<br>';
                         echo "Response: " . json_decode($response)->message . "<br>";
