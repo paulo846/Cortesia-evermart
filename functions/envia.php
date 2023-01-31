@@ -20,10 +20,8 @@ if (isset($_FILES['arquivo'])) {
         // Número de colunas esperadas
         $numberOfFields = 2;
 
-        echo "<pre>";
-
         // Extrai linha por linha até 500 caracteres
-        while (($filedata = fgetcsv($list, 500, ",")) !== FALSE) {
+        while (($filedata = fgetcsv($list, 1000, ",")) !== FALSE) {
 
             // Número de colunas na linha atual
             $num = count($filedata);
@@ -34,15 +32,15 @@ if (isset($_FILES['arquivo'])) {
                 // Array para post
                 $post = [
                     'classRoomId' => 0,
-                    'email' => $filedata[1],
+                    'email' => trim($filedata[1]),
                     'isActive' => true,
                     'months' => 12,
-                    'name' => $filedata[0],
+                    'name' => trim($filedata[0]),
                     'productId' => $_POST['id'],
                     'time' => "indeterminate"
                 ];
 
-                print_r($post);
+                //print_r($post);
 
                 // Início da solicitação curl
                 $ch = curl_init('https://api-readonly.mycheckout.com.br/api/v1/courtesy');
@@ -52,16 +50,38 @@ if (isset($_FILES['arquivo'])) {
                 // Execute a solicitação
                 $response = curl_exec($ch);
 
+                // Verifique se houve erro
+                if ($response === false) {
+                    echo 'cURL Error: ' . curl_error($ch);
+                } else {
+                    // Obtenha o código de status HTTP
+                    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    if ($statusCode == 400) {
+                        echo '<p class="alert alert-danger p-1 m-1">';
+                        echo "Nome: " . $post['name'] . '<br>';
+                        echo "Email: " . $post['email'] . '<br>';
+                        echo "Response: " . json_decode($response)->message . "<br>";
+                        echo "Status code: " . $statusCode . "<br>";
+                        echo "</p>";
+                    } else {
+                        echo '<p class="alert alert-success p-1 m-1">';
+                        echo "Nome: " . $post['name'] . '<br>';
+                        echo "Email: " . $post['email'] . '<br>';
+                        echo "Response: " . json_decode($response)->message . "<br>";
+                        echo "Status code: " . $statusCode . "<br>";
+                        echo "</p>";
+                    }
+                }
+
                 // Fecha a conexão, libera os recursos usados
                 curl_close($ch);
 
                 // Exibe a resposta
-                var_dump($response);
+                //var_dump($response);
             }
             $i++;
         }
 
-        echo "</pre>";
 
         // Fecha arquivo
         fclose($list);

@@ -15,6 +15,9 @@
         body {
             background-color: rgb(208, 208, 208);
         }
+        #response{
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -28,23 +31,13 @@
                             <a href="index.html" class="btn btn-primary">Envio único</a>
                             <a href="modelo.csv" class="btn btn-warning">Modelo de arquivo CSV</a>
                         </div>
-                        <div class="spinner-border" role="status" style="display: none;" id="carregando">
-                            <span class="visually-hidden">Loading...</span>
+
+                        <div class="progress">
+                            <div id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%">
+                            </div>
                         </div>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert" id="sucesso"
-                            style="display: none;">
-                            Cadastrado com sucesso!
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="erro"
-                            style="display: none;">
-                            Erro ao realizar o cadastro! <br>
-                            <b>
-                                <span id="resp"></span>
-                            </b>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <form action="functions/envia.php" method="post" enctype="multipart/form-data">
+
+                        <form id="form">
                             <div class="mb-3">
                                 <label for="">ID Produto</label>
                                 <input type="text" class="form-control" name="id" id="idProduto" required
@@ -57,6 +50,8 @@
                             </div>
                             <button class="btn btn-primary" id="btn" type="submit">Cadastrar</button>
                         </form>
+                        <div id="response" class="mt-1">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,46 +62,40 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        /*$(document).ready(() => {
-            $("#btn").click(() => {
-                $("#carregando").show();
-                var idProduto = $("#idProduto").val();
-                var nome = $("#nome").val();
-                var email = $("#email").val();
-                var urlPost = "https://api-readonly.mycheckout.com.br/api/v1/courtesy";
-                $.ajax({
-                    type: "POST",
-                    url: urlPost,
-                    data: {
-                        classRoomId: 00000,
-                        email: email,
-                        isActive: true,
-                        months: 12,
-                        name: nome,
-                        productId: idProduto,
-                        time: "indeterminate"
-                    },
-                    dataType: "json",
-                })
-                    .done(function (res) {
-                        $("#carregando").hide();
-                        console.log(res);
-                        $("#erro").hide();
-                        $("#sucesso").show();
-                    })
-                    .fail(function (res) {
-                        $("#carregando").hide();
-                        console.log(res);
-                        $("#erro").show();
-                        $("#sucesso").hide();
-                        $("#resp").html(res.responseJSON)
-                    })
-                    .always(function () {
-                        $("#carregando").hide();
-                        console.log("complete");
-                    });
-            })
-        });*/
+        $('#form').submit(function (e) {
+            $('#response').html('<b>O status de cada email aparecerá aqui, aguarde!!</b>');
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            percentComplete = parseInt(percentComplete * 100);
+                            $('#progress-bar').css('width', percentComplete + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
+
+                type: 'post',
+                url: 'functions/envia.php',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                    $("#response").html(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                    $("#response").html("Error: " + error.statusText);
+                }
+            });
+        });
+
     </script>
 </body>
 
