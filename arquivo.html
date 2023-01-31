@@ -15,7 +15,8 @@
         body {
             background-color: rgb(208, 208, 208);
         }
-        #response{
+
+        #response {
             font-size: 12px;
         }
     </style>
@@ -67,24 +68,19 @@
             e.preventDefault();
             var formData = new FormData(this);
             $.ajax({
-
-                xhr: function () {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function (evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = evt.loaded / evt.total;
-                            percentComplete = parseInt(percentComplete * 100);
-                            $('#progress-bar').css('width', percentComplete + '%');
-                        }
-                    }, false);
-                    return xhr;
-                },
-
                 type: 'post',
                 url: 'functions/envia.php',
                 data: formData,
                 processData: false,
                 contentType: false,
+                xhr: function () {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.onprogress = function (e) {
+                        var percent = (e.loaded / e.total) * 100;
+                        $("#progress").css("width", percent + "%").text(percent + "%");
+                    };
+                    return xhr;
+                },
                 success: function (response) {
                     console.log(response);
                     $("#response").html(response);
