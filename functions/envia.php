@@ -34,10 +34,10 @@ if (isset($_FILES['arquivo'])) {
                     'classRoomId' => 0,
                     'email' => trim($filedata[1]),
                     'isActive' => true,
-                    'months' => 12,
+                    'months' => $_POST['mes'],
                     'name' => trim($filedata[0]),
                     'productId' => $_POST['id'],
-                    'time' => "indeterminate"
+                    'time' => "determined"
                 ];
 
                 //print_r($post);
